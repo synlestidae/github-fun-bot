@@ -58,7 +58,10 @@ executable github-fun-bot
   
   -- Other library packages from which modules are imported.
   build-depends:       base >=4.7 && <4.8,
-                       github==0.13.2 
+                       github==0.13.2,
+                       regex-compat==0.95.1,
+                       regex-posix==0.95.2,
+                       bytestring==0.10.4.0
   
   -- Directories containing source files.
   hs-source-dirs:      src
