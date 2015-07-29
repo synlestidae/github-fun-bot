@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module RandomGif where
+module RandomGif(randomGifUrl) where
 import Data.Aeson	
 import Data.Text as T (Text, pack, unpack)
 import Data.ByteString.Lazy.Internal
