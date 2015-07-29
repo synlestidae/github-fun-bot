@@ -47,14 +47,15 @@ chooseTerms i1 i2
 performRequest :: String -> IO (Maybe String)
 performRequest query = 
 	do 
-		response <- simpleHTTP $ getRequest (baseUrl ["dogs"])
-		return $ convertResponse response
+		response <- simpleHTTP $ getRequest (query)
+		randomIndex <- randomIO
+		return $ convertResponse randomIndex response
 
-convertResponse :: Either ConnError (Response String) -> Maybe String
-convertResponse (Right response) = case gifUrls (rspBody response) of 
+convertResponse :: Int -> Either ConnError (Response String) -> Maybe String
+convertResponse randIndex (Right response) = case gifUrls (rspBody response) of 
 	[] -> Nothing
-	urls -> Just (urls!!0) --TODO pick one of them urls
-convertResponse _ = Nothing
+	urls -> Just (urls!!(randIndex `mod` length urls)) --TODO pick one of them urls
+convertResponse _ _ = Nothing
 
 gifUrls :: String -> [String]
 gifUrls body = case (gifUrlsFromValue (decode (packChars body) :: Maybe Value)) of
