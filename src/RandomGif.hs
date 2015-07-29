@@ -18,7 +18,9 @@ type GifFailure = String
 baseUrl :: [String] -> String
 baseUrl query = "http://api.giphy.com/v1/gifs/search?q="++(concat $ intersperse "+" query)++"&api_key=dc6zaTOxFJmzC&limit=10"
 
-queryTerms = ["dogs", "programming", "pirate", "funny", "technology", "epic", "win", "fail", "computer"]
+queryTerms = ["dogs", "programming", "pirate", "funny", 
+			"technology", "epic", "win", "fail", "computer", 
+			"explosion", "bugs", "fixing"]
 
 randomGifUrl :: IO (Either GifFailure String)
 randomGifUrl = do

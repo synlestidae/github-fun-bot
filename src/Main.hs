@@ -49,8 +49,15 @@ commentOnPulls :: Auth.GithubAuth -> Username -> RepoName -> [GitData.Issue] -> 
 commentOnPulls _ _ _ [] = putStrLn "Done commenting"
 commentOnPulls auth username repoName (issue:issues) = 
 	do 
-		IssueComments.createComment auth username repoName (GitData.issueNumber issue) "No GIF?"
+		gifUrl <- randomGifUrl
+		case gifUrl of 
+			Left failureMessage -> putStrLn "Could not find a GIF for the comment"
+			Right url -> (IssueComments.createComment auth username repoName (GitData.issueNumber issue) 
+				makeComment url >> putStrLn "Commented ^_^")
 		commentOnPulls auth username repoName issues
+
+makeComment :: String -> String
+makeComment url = concat $ ["No Gif? No problem.\n", "![Alt text](",url,")"]
 
 pullsMissingGIF :: [GitData.Issue] -> [GitData.Issue]
 pullsMissingGIF = filter (not.hasAppropriateGIF)
