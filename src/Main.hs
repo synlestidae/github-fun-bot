@@ -6,6 +6,7 @@ import qualified Github.Data.Definitions as GitData
 import qualified Github.Auth as Auth
 import qualified Data.ByteString as BS
 import System.Environment
+import RandomGif as Gif
 import Control.Monad
 import Control.Applicative
 import Data.Maybe

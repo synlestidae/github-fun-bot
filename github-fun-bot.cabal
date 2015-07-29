@@ -61,7 +61,14 @@ executable github-fun-bot
                        github==0.13.2,
                        regex-compat==0.95.1,
                        regex-posix==0.95.2,
-                       bytestring==0.10.4.0
+                       bytestring==0.10.4.0,
+                       aeson==0.9.0.1,
+                       HTTP==4000.2.20,
+                       unordered-containers==0.2.5.1,
+                       text==1.2.1.1,
+                       vector==0.10.12.3,
+                       random==1.0.1.1
+
   
   -- Directories containing source files.
   hs-source-dirs:      src
