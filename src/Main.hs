@@ -96,8 +96,8 @@ commentsWithGifs :: Maybe Auth.GithubAuth -> Username -> RepoName -> GitData.Iss
 commentsWithGifs auth user repoName (issue) = do
 	result <- IssueComments.comments' auth user repoName (GitData.issueId issue)
 	case result of 
-		Left _ -> return True
-		Right theComments -> return $ any (\b -> (GitData.issueCommentBody b) Re.=~ regexString) theComments
+		Left _ -> return False
+		Right theComments -> return $ any (\b -> trace (GitData.issueCommentBody b) (GitData.issueCommentBody b) Re.=~ regexString) theComments
 
 toList :: Either a b -> Maybe b
 toList (Left _) = Nothing
