@@ -20,7 +20,8 @@ baseUrl query = "http://api.giphy.com/v1/gifs/search?q="++(concat $ intersperse 
 
 queryTerms = ["dogs", "programming", "pirate", "funny", 
 			"technology", "epic", "win", "fail", "computer", 
-			"explosion", "bugs", "fixing"]
+			"explosion", "bugs", "fixing", "work", "exhausted","cats",
+			"puppy", "crazy", "80s"]
 
 randomGifUrl :: IO (Either GifFailure String)
 randomGifUrl = do
