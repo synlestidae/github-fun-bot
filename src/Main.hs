@@ -54,16 +54,19 @@ commentOnPulls _ _ _ [] = putStrLn "Done commenting"
 commentOnPulls auth username repoName (issue:issues) = 
 	do 
 		gifUrl <- randomGifUrl
-		hasGifs <- commentsWithGifs (Just auth) username repoName issue
+		--hasGifs <- commentsWithGifs (Just auth) username repoName issue
+		fileContents <- readFile "COMMENTED.txt"
 		case gifUrl of 
 			Left failureMessage -> putStrLn "Could not find a GIF for the comment"
-			Right url -> if not hasGifs then 
-							(IssueComments.createComment auth username repoName (GitData.issueNumber issue) (makeComment url)) >> putStrLn "Commented ^_^"
+			Right url -> if not $ (show $ GitData.issueNumber issue) `elem` lines fileContents then do
+							writeFile "COMMENTED.txt" (unlines ((show $ GitData.issueNumber issue) : (lines fileContents)))
+							(IssueComments.createComment auth username repoName (GitData.issueNumber issue) (makeComment url)) 
+							putStrLn "Commented ^_^"
 						 else putStrLn "Looks like there is an existing GIF"
 		commentOnPulls auth username repoName issues
 
 makeComment :: String -> String
-makeComment url = concat $ ["No Gif? Let me get that for you.\n", "![Alt text](",url,")"]
+makeComment url = concat $ ["Found you a nice GIF for your awesome pull requests	.\n", "![Alt text](",url,")"]
 
 pullsMissingGIF :: [GitData.Issue] -> [GitData.Issue]
 pullsMissingGIF = filter (not.hasAppropriateGIF)
@@ -96,7 +99,7 @@ commentsWithGifs :: Maybe Auth.GithubAuth -> Username -> RepoName -> GitData.Iss
 commentsWithGifs auth user repoName (issue) = do
 	result <- IssueComments.comments' auth user repoName (GitData.issueId issue)
 	case result of 
-		Left _ -> return False
+		Left err -> putStrLn ("Error while processing comments: "++show err)>> return True
 		Right theComments -> return $ any (\b -> trace (GitData.issueCommentBody b) (GitData.issueCommentBody b) Re.=~ regexString) theComments
 
 toList :: Either a b -> Maybe b

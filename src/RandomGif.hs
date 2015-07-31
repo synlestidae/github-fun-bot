@@ -18,10 +18,9 @@ type GifFailure = String
 baseUrl :: [String] -> String
 baseUrl query = "http://api.giphy.com/v1/gifs/search?q="++(concat $ intersperse "+" query)++"&api_key=dc6zaTOxFJmzC&limit=10"
 
-queryTerms = ["dogs", "programming", "pirate", "funny", 
-			"technology", "epic", "win", "fail", "computer", 
-			"explosion", "bugs", "fixing", "work", "exhausted","cats",
-			"puppy", "crazy", "80s"]
+programmingTerms = ["programming", "hacking", "pirate", "computer", "engineering", "internet", "boat", "system"]
+
+funTerms = ["80s", "dog", "cat", "fail", "win", "awesome", "explosion", "retro", "cool", "funny"]
 
 randomGifUrl :: IO (Either GifFailure String)
 randomGifUrl = do
@@ -39,13 +38,12 @@ randomQuery = do
 	where 
 
 chooseTerms :: Int -> Int -> [String]
-chooseTerms i1 i2 
-	| i1' /= i2' =  map (queryTerms !!) [i1', i2']
-	| otherwise =  [queryTerms!!i1]
+chooseTerms i1 i2  = [(programmingTerms !! i1'), (funTerms !! i2')]
 	where 
-		max = length queryTerms
-		i1' = i1 `mod` max
-		i2' = i2 `mod` max
+		max1 = length funTerms
+		max2 = length programmingTerms
+		i1' = (i1 `mod` max1) - 1
+		i2' = (i2 `mod` max2) - 1
 
 performRequest :: String -> IO (Maybe String)
 performRequest query = 
