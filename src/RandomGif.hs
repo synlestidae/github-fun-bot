@@ -42,8 +42,8 @@ chooseTerms i1 i2  = [(programmingTerms !! i1'), (funTerms !! i2')]
 	where 
 		max1 = length funTerms
 		max2 = length programmingTerms
-		i1' = (i1 `mod` max1) - 1
-		i2' = (i2 `mod` max2) - 1
+		i1' = (abs i1 `mod` max1) - 1
+		i2' = (abs i2 `mod` max2) - 1
 
 performRequest :: String -> IO (Maybe String)
 performRequest query = 

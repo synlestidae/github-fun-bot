@@ -66,7 +66,7 @@ commentOnPulls auth username repoName (issue:issues) =
 		commentOnPulls auth username repoName issues
 
 makeComment :: String -> String
-makeComment url = concat $ ["Found you a nice GIF for your awesome pull requests	.\n", "![Alt text](",url,")"]
+makeComment url = concat $ ["Found you a nice GIF for your awesome pull requests.\n", "![Alt text](",url,")"]
 
 pullsMissingGIF :: [GitData.Issue] -> [GitData.Issue]
 pullsMissingGIF = filter (not.hasAppropriateGIF)
@@ -107,7 +107,7 @@ toList (Left _) = Nothing
 toList (Right x) = Just x
 
 hasAppropriateGIF ::  GitData.Issue  -> Bool
-hasAppropriateGIF issue = trace ("Body:"++body) (body Re.=~ regexString) :: Bool
+hasAppropriateGIF issue = False && trace ("Body:"++body) (body Re.=~ regexString) :: Bool
 	where 
 		body = if (GitData.issueBody issue) == Nothing then "" else fromJust (GitData.issueBody issue)
 
